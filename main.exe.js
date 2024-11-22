@@ -385,7 +385,7 @@ const menu = new Div({
   },
 });
 
-menu.rect.width = 300;
+menu.rect.width = 400;
 menu.rect.height = 400;
 menu.rect.x = -menu.rect.width;
 menu.rect.y = vh(100) - 42 - menu.rect.height;
@@ -425,8 +425,8 @@ root.on(Event.tick, () => {
 
   if (amenu) {
     mc += 20;
-    if (mc > menu.rect.height / 2) {
-      mc = menu.rect.height / 2;
+    if (mc > menu.rect.width / 2) {
+      mc = menu.rect.width / 2;
     }
   } else {
     mc -= 20;
