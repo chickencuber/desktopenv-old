@@ -1,0 +1,6 @@
+{
+    "name": "files",
+    "path": "/bin/desktop/files.exe",
+    "icon": "/bin/desktop/icons/files.png",
+    "terminal_app": false
+}

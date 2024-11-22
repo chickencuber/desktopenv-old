@@ -1,0 +1,6 @@
+{
+    "name": "terminal",
+    "path": "/bin/desktop/terminal/main.exe",
+    "icon": "/bin/desktop/icons/terminal.png",
+    "terminal_app": false
+}
