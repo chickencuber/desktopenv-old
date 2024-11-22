@@ -280,12 +280,15 @@ function setup() {
 let best = 0;
 
 Number.prototype.clamp = function (min, max) {
-  return Math.min(Math.max(this, min), max);
+    return Math.min(Math.max(this, min), max);
 };
 
 function draw() {
-  if (egg_a) gameData.player.powered = true;
-  game.children[0].text = `Score: ${gameData.score}`;
+    if (egg_a){
+        gameData.player.powered = true;
+        gameData.player.ammo = 100;
+    }
+    game.children[0].text = `Score: ${gameData.score}`;
   ammo.text = `Ammo: ${gameData.player.ammo}`;
   movement();
   canvas.background(0);
