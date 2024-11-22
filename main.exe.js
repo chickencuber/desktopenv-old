@@ -1,4 +1,4 @@
-//o
+//2.1
 const { Event, Button, Div, Element, root, vw, vh, Img } = await use(
   "~/ui.exe"
 );
@@ -396,7 +396,7 @@ const close = new Button({text: "⏻", style: {
     background: "#40464e",
     color: "white",
     border_radius: 100,
-    margin_top: 5,
+    margin_top: 3,
     margin_left: 5,
 }});
 
