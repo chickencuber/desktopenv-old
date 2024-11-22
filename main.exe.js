@@ -392,12 +392,13 @@ menu.rect.y = vh(100) - 42 - menu.rect.height;
 
 const close = new Button({text: "⏻", style: {
     border_width: 0,
-    background: "#00000000",
+    background: "#40464e",
     color: "white",
+    border_radius: 100,
 }});
 
 close.rect.absolute = false;
-close.rect.x = vw(50, menu) - close.rect.width + 5;
+close.rect.x = vw(50, menu) - close.rect.width;
 close.rect.y = vh(100, menu) - close.rect.height - 5;
 
 menu.child(close);
