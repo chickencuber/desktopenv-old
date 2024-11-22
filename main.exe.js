@@ -402,7 +402,7 @@ const close = new Button({text: "⏻", style: {
 
 close.rect.absolute = false;
 close.rect.width = close.rect.height;
-close.rect.x = vw(50, menu) - close.rect.width;
+close.rect.x = vw(50, menu);
 close.rect.y = vh(100, menu) - close.rect.height - 5;
 
 menu.child(close);
