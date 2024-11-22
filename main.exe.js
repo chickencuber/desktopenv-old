@@ -395,6 +395,8 @@ const close = new Button({text: "⏻", style: {
     background: "#40464e",
     color: "white",
     border_radius: 100,
+    margin_top: 5,
+    margin_left: 5,
 }});
 
 close.rect.absolute = false;
