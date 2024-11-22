@@ -1,4 +1,3 @@
-//2.1
 const { Event, Button, Div, Element, root, vw, vh, Img } = await use(
   "~/ui.exe"
 );
