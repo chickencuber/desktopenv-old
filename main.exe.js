@@ -390,11 +390,11 @@ menu.rect.height = 400;
 menu.rect.x = -menu.rect.width;
 menu.rect.y = vh(100) - 42 - menu.rect.height;
 
-const close = new Button({text: "close"});
+const close = new Button({text: "⏻"});
 
 close.rect.absolute = false;
 close.rect.x = vw(50, menu) - close.rect.width + 20;
-close.rect.y = 5;
+close.rect.y = vh(100, menu) - close.rect.height - 20;
 
 menu.child(close);
 
