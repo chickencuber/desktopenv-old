@@ -328,14 +328,14 @@ class Img extends Element {
       border_color = this.style.border_color ?? "#000000",
     } = collide ? this.style_hover : this.style;
     Shell.gl.canvas.stroke(border_color);
-    Shell.gl.canvas.strokeWeight(border_width);
-    Shell.gl.canvas.rect(
-      x + border_width / 2,
-      y + border_width / 2,
-      width,
-      height
-    );
-    if (this.props.image) {
+      Shell.gl.canvas.strokeWeight(border_width);
+      if(border_width !== 0) Shell.gl.canvas.rect(
+          x + border_width / 2,
+          y + border_width / 2,
+          width,
+          height
+      );
+      if (this.props.image) {
       Shell.gl.canvas.image(
         this.props.image,
         x + border_width / 2,

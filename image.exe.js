@@ -8,7 +8,7 @@ Shell.name = args[0].toPath();
 
 const img = new Img({
     style: {
-        border_color: "#00000000"
+        border_width: 0,
     }
 });
 
