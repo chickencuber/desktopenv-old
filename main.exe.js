@@ -496,7 +496,7 @@ root.on(Event.tick, () => {
             Shell.gl.mouse.y > root.rect.height - bar.rect.height / 2)
     ) {
         i++;
-        if (i > f) {
+        if (i > f || amenu) {
             c += 5;
             if (c > bar.rect.height / 2) {
                 c = bar.rect.height / 2;
