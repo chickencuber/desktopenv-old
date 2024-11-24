@@ -440,6 +440,36 @@ button.on(Event.mousePressed, () => {
     }
 });
 
+root.on(Event.keyPressed, (keyCode) => {
+    if(keyCode === ALT) {
+        amenu = true;
+        button.style.background = "#98cbff";
+        button.style.color = "#40464e";
+        apps = new App({
+            props: {
+                app: getPath("~/get_apps.exe"),
+                createWindow,
+            },
+            style: {
+                border_width: 0,
+            }
+        }); 
+        apps.shell.close = () => {
+            amenu = false;
+            button.style.background = "#40464e";
+            button.style.color = "white";
+            return;
+        }
+        apps.rect.absolute = false;
+        apps.rect.x = vw(50, menu);
+        apps.rect.y = 10;
+        apps.rect.height = vh(100, menu) - close.rect.height - 20;
+        apps.rect.width = vw(50, menu) - 50;
+        menu.child(apps);
+
+    } 
+});
+
 root.on(Event.tick, () => {
     bar.rect.y = vh(100) - c;
     menu.rect.x = -menu.rect.width + mc;
