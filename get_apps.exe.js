@@ -1,11 +1,11 @@
-const { Event, Button, Div, Element, root, vw, vh } = await use("~/ui.exe");
+const { Event, Button, Div, Element, root, vw, vh, Img } = await use("~/ui.exe");
 
 let scroll = 0;
 
 root.on(Event.keyPressed, (key) => {
     if (key === UP_ARROW && scroll > 0) {
         scroll -= 10;
-    } else if (key === DOWN_ARROW && height > Shell.size.height) {
+    } else if (key === DOWN_ARROW && y > Shell.size.height) {
         scroll += 10;
     }
     for(const button of root.children) {
@@ -16,7 +16,11 @@ root.on(Event.keyPressed, (key) => {
 const apps = Object.values(FS.getFromPath(getPath("~/apps"))).map(v => JSON.parse(v)); 
 let y = 0;
 for(const app of apps) {
-    const temp = new Button({text: app.name})
+    const temp = new Button({text: app.name, style: {
+        color: "white",
+        border_width: 0,
+        background: "#40464e",
+    }})
     if(app.terminal_app) {
         temp.on(Event.mousePressed, () => {
             Shell.createWindow(getPath("~/terminal/main.exe") + " " + app.path)
@@ -28,8 +32,9 @@ for(const app of apps) {
             Shell.close();
         });
     }
+    console.log(temp.rect.height)
     temp.props.y = y;
-    y += temp.rect.height;
+    y += temp.rect.height + 5;
     root.child(temp);
 }
 
