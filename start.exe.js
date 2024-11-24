@@ -1,2 +1,2 @@
-if(!FS.exists("/desktop")) FS.createDir("/desktop");
+if(!FS.exists("/desktop")) FS.addDir("/desktop");
 
