@@ -327,8 +327,7 @@ class Img extends Element {
       border_width = this.style.border_width ?? 2,
       border_color = this.style.border_color ?? "#000000",
     } = collide ? this.style_hover : this.style;
-    Shell.gl.canvas.stroke(border_color);
-      Shell.gl.canvas.strokeWeight(border_width);
+    Shell.gl.canvas.fill(border_color);
       if(border_width !== 0) Shell.gl.canvas.rect(
           x + border_width / 2,
           y + border_width / 2,
