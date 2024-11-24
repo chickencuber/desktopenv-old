@@ -32,10 +32,22 @@ for(const app of apps) {
             Shell.close();
         });
     }
-    console.log(temp.rect.height)
+    temp.rect.height = 23;
+    temp.rect.x =25;
+    const image = new Img({
+        props: {
+            image: loadImage(app.icon),
+        },
+        style: {
+            border_width: 1,
+            border_color: "#40464e",
+        }
+    });
+    image.rect.width = 23;
+    image.rect.height = 23;
     temp.props.y = y;
     y += temp.rect.height + 5;
-    root.child(temp);
+    root.child(image, temp);
 }
 
 for(const button of root.children) {
