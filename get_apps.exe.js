@@ -31,4 +31,6 @@ for(const button of root.children) {
     button.rect.y = button.props.y + scroll;
 }
 
+root.style.background = "#252d35"
+
 await run();

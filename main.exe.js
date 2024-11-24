@@ -418,6 +418,9 @@ button.on(Event.mousePressed, () => {
                 app: getPath("~/get_apps.exe"),
                 createWindow,
             },
+            style: {
+                border_width: 0,
+            }
         }); 
         apps.rect.absolute = false;
         apps.rect.x = vw(50, menu);
