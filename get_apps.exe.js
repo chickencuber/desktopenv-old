@@ -36,7 +36,7 @@ for(const app of apps) {
     temp.rect.x =25;
     const image = new Img({
         props: {
-            image: loadImage(app.icon),
+            image: loadImage(FS.getFromPath(app.icon)),
         },
         style: {
             border_width: 1,
