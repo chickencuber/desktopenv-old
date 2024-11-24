@@ -423,7 +423,7 @@ button.on(Event.mousePressed, () => {
         apps.rect.x = vw(50, menu);
         apps.rect.height = vh(100, menu) - close.rect.height - 5;
         apps.rect.width = vw(50, menu) - 50;
-        root.child(apps);
+        menu.child(apps);
     } else {
         button.style.background = "#40464e";
         button.style.color = "white";
