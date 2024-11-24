@@ -18,9 +18,15 @@ let y = 0;
 for(const app of apps) {
     const temp = new Button({text: app.name})
     if(app.terminal_app) {
-        temp.on(Event.mousePressed, () => Shell.createWindow(getPath("~/terminal/main.exe") + " " + app.path));
+        temp.on(Event.mousePressed, () => {
+            Shell.createWindow(getPath("~/terminal/main.exe") + " " + app.path)
+            Shell.close();
+        });
     } else {
-        temp.on(Event.mousePressed, () => Shell.createWindow(app.path));
+        temp.on(Event.mousePressed, () => {
+            Shell.createWindow(app.path)
+            Shell.close();
+        });
     }
     temp.props.y = y;
     y += temp.rect.height;

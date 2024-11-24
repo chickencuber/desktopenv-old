@@ -422,6 +422,12 @@ button.on(Event.mousePressed, () => {
                 border_width: 0,
             }
         }); 
+        apps.shell.close = () => {
+            amenu = false;
+            button.style.background = "#40464e";
+            button.style.color = "white";
+            return;
+        }
         apps.rect.absolute = false;
         apps.rect.x = vw(50, menu);
         apps.rect.y = 10;
