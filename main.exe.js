@@ -395,8 +395,8 @@ const close = new Button({text: "⏻", style: {
     background: "#40464e",
     color: "white",
     border_radius: 100,
-    margin_top: 3,
-    margin_left: 3,
+    margin_top: 2,
+    margin_left: 2.5,
     font: Shell.gl.fonts.Symbols,
 }});
 
