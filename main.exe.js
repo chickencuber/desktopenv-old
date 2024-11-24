@@ -397,6 +397,7 @@ const close = new Button({text: "⏻", style: {
     border_radius: 100,
     margin_top: 3,
     margin_left: 3,
+    font: Shell.gl.fonts.Symbols,
 }});
 
 close.rect.absolute = false;
