@@ -45,6 +45,7 @@ for(const app of apps) {
     });
     image.rect.width = 23;
     image.rect.height = 23;
+    image.props.y = y;
     temp.props.y = y;
     y += temp.rect.height + 5;
     root.child(image, temp);
