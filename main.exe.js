@@ -424,7 +424,8 @@ button.on(Event.mousePressed, () => {
         }); 
         apps.rect.absolute = false;
         apps.rect.x = vw(50, menu);
-        apps.rect.height = vh(100, menu) - close.rect.height - 5;
+        apps.rect.y = 10;
+        apps.rect.height = vh(100, menu) - close.rect.height - 20;
         apps.rect.width = vw(50, menu) - 50;
         menu.child(apps);
     } else {
