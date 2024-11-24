@@ -6,7 +6,11 @@ if (!args[0]) return "requires arg";
 
 Shell.name = args[0].toPath();
 
-const img = new Img();
+const img = new Img({
+    style: {
+        border_color: "#00000000"
+    }
+});
 
 const src = FS.getFromPath(args[0].toPath());
 
