@@ -419,6 +419,7 @@ button.on(Event.mousePressed, () => {
                 createWindow,
             },
         }); 
+        apps.rect.absolute = false;
         apps.rect.x = vw(50, menu);
         apps.rect.height = vh(100, menu) - close.rect.height - 5;
         apps.rect.width = vw(50, menu) - 50;
