@@ -479,6 +479,7 @@ root.on(Event.keyPressed, (keyCode) => {
             apps.rect.height = vh(100, menu) - close.rect.height - 20;
             apps.rect.width = vw(50, menu) - 50;
             menu.child(apps);
+            console.log(menu.children);
         } else {
             button.style.background = "#40464e";
             button.style.color = "white";
