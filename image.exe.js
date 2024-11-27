@@ -2,6 +2,8 @@ const { Event, Button, Div, Element, root, vw, vh, Img } = await use(
   "~/ui.exe"
 );
 
+Shell.icon = loadImage(getFile("~/icons/image.png"))
+
 if (!args[0]) return "requires arg";
 
 Shell.name = args[0].toPath();

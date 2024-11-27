@@ -4,6 +4,8 @@ const { Event, Button, Div, Element, root, vw, vh, Img } = await use(
 
 Shell.name = "Tube Rush";
 
+Shell.icon = loadImage(getFile("~/icons/game.png"))
+
 const canvas = Shell.gl.createGraphics(vw(100), vh(100), WEBGL);
 
 const egg = [

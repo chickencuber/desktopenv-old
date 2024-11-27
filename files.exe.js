@@ -2,6 +2,8 @@ const { Event, Button, Div, Element, root, vw, vh } = await use("~/ui.exe");
 
 Shell.name = "files";
 
+Shell.icon = loadImage(getFile("~/icons/files.png"))
+
 if (!Shell.in_desktop) {
   return "please use desktop";
 }

@@ -163,6 +163,10 @@ function createWindow(app) {
     temp.rect.y = 15;
     temp.rect.x = 4;
 
+    if(!temp.shell.icon) {
+        temp.shell.icon = loadImage(getFile("~/icons/default.png"));
+    }
+
     shells.push(temp.shell);
 
     temp.on(Event.tick, () => {
@@ -406,6 +410,9 @@ let mc = 0;
 
 let apps = {
     remove(){},
+    shell: {
+
+    }
 }
 
 button.on(Event.mousePressed, () => {
@@ -413,9 +420,11 @@ button.on(Event.mousePressed, () => {
     if (amenu) {
         button.style.background = "#98cbff";
         button.style.color = "#40464e";
+        apps.remove();
+        apps.shell.exit = true;
         apps = new App({
             props: {
-                app: getPath("~/get_apps.exe"),
+                app: getPath("~/applets/get_apps.exe"),
                 createWindow,
             },
             style: {
@@ -446,9 +455,11 @@ root.on(Event.keyPressed, (keyCode) => {
         if (amenu) {
             button.style.background = "#98cbff";
             button.style.color = "#40464e";
+            apps.remove();
+            apps.shell.exit = true;
             apps = new App({
                 props: {
-                    app: getPath("~/get_apps.exe"),
+                    app: getPath("~/applets/get_apps.exe"),
                     createWindow,
                 },
                 style: {
@@ -461,6 +472,7 @@ root.on(Event.keyPressed, (keyCode) => {
                 button.style.color = "white";
                 return;
             }
+
             apps.rect.absolute = false;
             apps.rect.x = vw(50, menu);
             apps.rect.y = 10;
@@ -515,6 +527,7 @@ root.child(background, windows, bar, menu);
 
 Shell.onExit = () => {
     shells.forEach((v) => (v.exit = true));
+    apps.shell.exit = true;
 };
 
 await run((r) => {
