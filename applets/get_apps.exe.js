@@ -1,4 +1,4 @@
-const { Event, Button, Div, Element, root, vw, vh, Img } = await use("~/ui.exe");
+const { Event, Button, Div, Element, root, vw, vh, Img } = await use("~/../ui.exe");
 
 let scroll = 0;
 
