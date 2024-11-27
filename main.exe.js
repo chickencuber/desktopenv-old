@@ -312,7 +312,7 @@ function createWindow(app) {
 createWindow.dragging = false;
 
 const background = new Img();
-background.props.image = await use("~/wallpapers/default.exe");
+background.props.image = loadImage(getPath("~/wallpapers/default.png"));
 background.rect.width = root.rect.width;
 background.rect.height = root.rect.height;
 
