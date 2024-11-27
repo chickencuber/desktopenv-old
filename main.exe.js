@@ -298,14 +298,14 @@ function createWindow(app) {
             change.text = "🗗";
             window.rect.x = 0;
             window.rect.y = 0;
-            resize.rect.x = vw(100) - resize.rect.width / 2;
-            resize.rect.y = vh(100) - resize.rect.height / 2;
+            resize.rect.x = vw(100) - resize.rect.width;
+            resize.rect.y = vh(100) - resize.rect.height;
             r();
         }
         window.on(Event.windowResized, () => {
             if (allow) return;
-            resize.rect.x = vw(100) - resize.rect.width / 2;
-            resize.rect.y = vh(100) - resize.rect.height / 2;
+            resize.rect.x = vw(100) - resize.rect.width;
+            resize.rect.y = vh(100) - resize.rect.height;
             r();
         });
     });
