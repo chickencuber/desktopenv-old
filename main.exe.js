@@ -420,7 +420,6 @@ button.on(Event.mousePressed, () => {
     if (amenu) {
         button.style.background = "#98cbff";
         button.style.color = "#40464e";
-        apps.remove();
         apps.shell.exit = true;
         apps = new App({
             props: {
@@ -455,7 +454,6 @@ root.on(Event.keyPressed, (keyCode) => {
         if (amenu) {
             button.style.background = "#98cbff";
             button.style.color = "#40464e";
-            apps.remove();
             apps.shell.exit = true;
             apps = new App({
                 props: {
