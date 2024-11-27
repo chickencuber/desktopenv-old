@@ -20,7 +20,7 @@ for(const app of apps) {
         color: "white",
         border_width: 0,
         background: "#40464e",
-    }})
+    }});
     if(app.terminal_app) {
         temp.on(Event.mousePressed, () => {
             Shell.createWindow(getPath("~/../terminal/main.exe") + " " + app.path)
