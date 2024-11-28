@@ -30,3 +30,5 @@ root.on(Event.tick, () => {
     }
 })
 
+return await run();
+

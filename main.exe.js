@@ -556,6 +556,7 @@ root.child(background, windows, bar, menu);
 Shell.onExit = () => {
     shells.forEach((v) => (v.exit = true));
     apps.shell.exit = true;
+    running.shell.exit = true;
 };
 
 await run((r) => {
