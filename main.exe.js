@@ -167,14 +167,23 @@ function createWindow(app) {
         temp.shell.icon = loadImage(getFile("~/icons/default.png"));
     }
 
+    if(!temp.shell.name) {
+        temp.shell.name = app;
+    }
+
     shells.push(temp.shell);
+
+    temp.shell.focus = () => {
+        windows.children.splice(windows.children.indexOf(window), 1);
+        windows.child(window);
+    }
 
     temp.on(Event.tick, () => {
         if (window.rect.width < 207) {
             name.text = "";
             return;
         }
-        name.text = temp.shell.name || app;
+        name.text = temp.shell.name;
         if (name.text.length >= 25) {
             name.text = name.text.slice(0, 23) + "...";
         }
@@ -351,6 +360,27 @@ bar.child(button);
 bar.rect.width = root.rect.width;
 bar.rect.height = 80;
 bar.rect.y = vh(100);
+
+const running = new App( {
+    props:{
+        app: getPath("~/applets/launched_apps.exe"),
+        createWindow,
+    },
+    style: {
+        border_width: 0,
+    },
+});
+
+running.shell.apps = () => {
+    return shells;
+}
+
+running.rect.absolute = false;
+running.rect.height = 40;
+running.rect.x = 40; 
+running.rect.width = vw(100) - 40;
+
+bar.child(running);
 
 root.on(Event.windowResized, () => {
     background.rect.width = root.rect.width;
