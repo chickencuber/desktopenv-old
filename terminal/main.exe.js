@@ -4,7 +4,7 @@ let running = true;
 
 const shell = fakeShell();
 
-Shell.icon = loadImage(getFile("~/../icons/files.png")) 
+Shell.icon = loadImage(getFile("~/../icons/terminal.png")) 
 
 let command = getPath("~/.startup.sh");
 
