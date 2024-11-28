@@ -21,8 +21,9 @@ root.on(Event.tick, () => {
             });
             root.child(temp);
             temp.rect.x = x;
-            temp.rect.width = root.rect.height;
-            temp.rect.height = root.rect.height;
+            temp.rect.width = root.rect.height - 5;
+            temp.rect.height = root.rect.height - 5;
+            temp.rect.y = vh(50) - temp.rect.height / 2;
             x+= temp.rect.width + 5;
             temp.on(Event.mousePressed, app.focus); 
         }
