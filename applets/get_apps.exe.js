@@ -13,7 +13,7 @@ root.on(Event.keyPressed, (key) => {
     }
 });
 
-const apps = Object.values(getFile("~/../apps")).map(v => JSON.parse(v)); 
+const apps = Object.values(getFile("/user/desktop/apps")).map(v => JSON.parse(v)); 
 let y = 0;
 for(const app of apps) {
     const temp = new Button({text: app.name, style: {
