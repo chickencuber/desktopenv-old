@@ -13,7 +13,7 @@ root.on(Event.keyPressed, (key) => {
     }
 });
 
-const apps = Object.entries(getFile("/user/desktop/apps")).map(v => JSON.parse(v)); 
+const apps = Object.entries(getFile("/user/desktop/apps")).map(([k, v]) => [k, JSON.parse(v)]); 
 let y = 0;
 for(const [name, app] of apps) {
     if(!name.endsWith(".json")) continue;
