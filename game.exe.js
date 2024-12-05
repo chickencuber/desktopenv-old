@@ -29,8 +29,10 @@ game.rect.height = vh(100);
 game.props.image = canvas;
 game.style.border_width = 0;
 
+let best = parseInt(FS.getFromPath("/user/desktop/game_best"));
+
 game.child(
-  new Div({ text: "Best Score: 0", style: { color: "white", border_width: 0 } })
+  new Div({ text: "Best Score: " + best, style: { color: "white", border_width: 0 } })
 );
 
 function scene(scene) {
@@ -279,11 +281,15 @@ function setup() {
   gameData.score = 0;
 }
 
-let best = 0;
 
 Number.prototype.clamp = function (min, max) {
     return Math.min(Math.max(this, min), max);
 };
+
+
+Shell.onExit = () => {
+   FS.addFile("/user/desktop/game_best", best.toString()); 
+}
 
 function draw() {
     if (egg_a){
