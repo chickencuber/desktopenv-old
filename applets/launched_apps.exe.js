@@ -1,7 +1,6 @@
 const { Event, Button, Div, Element, root, vw, vh, Img } = await use("~/../ui.exe");
 
-//root.style.background = "#252d35"; 
-root.style.background = "#FF0000";
+root.style.background = "#252d35"; 
 
 root.on(Event.tick, () => {
     root.children = [];

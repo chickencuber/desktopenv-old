@@ -195,9 +195,6 @@ function createWindow(app) {
         windows.child(window);
     }
 
-    minimize.on(Event.mousePressed, () => {
-        windows.children.splice(windows.children.indexOf(window), 1);
-    });
 
     temp.on(Event.tick, () => {
         if (window.rect.width < 207) {
@@ -277,7 +274,7 @@ function createWindow(app) {
     let drag = false;
     window.on(Event.mousePressed, () => {
         if (createWindow.dragging) return;
-        if (button.collide()) return;
+        if (button.collide() || minimize.collide() || change.collide()) return;
         windows.children.splice(windows.children.indexOf(window), 1);
         windows.child(window);
         if (!allow) return;
@@ -286,6 +283,9 @@ function createWindow(app) {
         cy = window.rect.y - Shell.gl.mouse.y;
         drag = true;
         createWindow.dragging = true;
+    });
+    minimize.on(Event.mousePressed, () => {
+        windows.children.splice(windows.children.indexOf(window), 1);
     });
     root.on(Event.mouseMoved, () => {
         if (!drag) return;
