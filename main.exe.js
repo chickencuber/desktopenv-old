@@ -167,7 +167,7 @@ function createWindow(app) {
 
     button.rect.x = vw(100, window) - 15;
 
-    window.child(button, change);
+    window.child(button, change, minimize);
 
     const temp = new App({
         props: {
