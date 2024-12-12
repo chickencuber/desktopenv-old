@@ -151,7 +151,7 @@ function createWindow(app) {
     minimize.rect.height = 15;
     minimize.rect.autosize = false;
     minimize.rect.absolute = false;
-    change.rect.x = vw(100, window) - 61;
+    minimize.rect.x = vw(100, window) - 61;
 
     change.rect.width = 18;
     change.rect.height = 15;
@@ -254,7 +254,7 @@ function createWindow(app) {
         }
         button.rect.x = vw(100, window) - 15;
         change.rect.x = vw(100, window) - 38;
-        change.rect.x = vw(100, window) - 61;
+        minimize.rect.x = vw(100, window) - 61;
     });
     root.on(Event.mouseReleased, () => {
         if (!rdrag) return;
@@ -309,7 +309,7 @@ function createWindow(app) {
         change.rect.x = vw(100, window) - 38;
 
         button.rect.x = vw(100, window) - 15;
-        change.rect.x = vw(100, window) - 61;
+        minimize.rect.x = vw(100, window) - 61;
     }
 
     change.on(Event.mousePressed, () => {
@@ -401,7 +401,7 @@ running.shell.apps = () => {
 running.rect.absolute = false;
 running.rect.height = 40;
 running.rect.x = 50; 
-running.rect.width = vw(100) - 350;
+running.rect.width = vw(100) - 250;
 
 bar.child(running);
 
