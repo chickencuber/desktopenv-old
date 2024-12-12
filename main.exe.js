@@ -401,7 +401,7 @@ running.shell.apps = () => {
 running.rect.absolute = false;
 running.rect.height = 40;
 running.rect.x = 50; 
-running.rect.width = vw(100) - 100;
+running.rect.width = vw(100) - 350;
 
 bar.child(running);
 
