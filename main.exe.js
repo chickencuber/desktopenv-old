@@ -141,7 +141,7 @@ function createWindow(app) {
         text: "🗕",
         style: {
             size: 13,
-            margin_left: 3,
+            margin_left: 5,
             margin_top: -1.5,
             font: Shell.gl.fonts.Symbols,
         }, 
