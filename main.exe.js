@@ -210,12 +210,102 @@ function createWindow(app) {
     let allow = true;
 
     const resize = new Div();
-    resize.rect.width = 5;
-    resize.rect.height = 5;
+    resize.rect.width = 10;
+    resize.rect.height = 10;
     resize.rect.absolute = false;
     resize.rect.x = vw(100, window) - 5;
     resize.rect.y = vh(100, window) - 5;
-    resize.style.background = "#aaaaaa";
+    resize.style.border_width = 0;
+
+    const resize_x = new Div();
+    resize_x.rect.width = 10;
+    resize_x.rect.height = vh(100, window) - 20;
+    resize_x.rect.absolute = false;
+    resize_x.rect.x = vw(100, window) - 5;
+    resize_x.rect.y = 15;
+    resize_x.style.border_width = 0;
+
+    const resize_y = new Div();
+    resize_y.rect.width = vw(100, window) - 10;
+    resize_y.rect.height = 10;
+    resize_y.rect.absolute = false;
+    resize_y.rect.x = 5;
+    resize_y.rect.y = vh(100, window) - 5;
+    resize_y.style.border_width = 0;
+
+    
+    let rycy;
+    let rydrag = false;
+    resize_y.on(Event.mousePressed, () => {
+        if(createWindow.dragging) return;
+        if(!allow) return;
+        rycy = resize_y.rect.y - Shell.gl.mouse.y;
+        rydrag = true;
+        createWindow.dragging = true;
+        Shell.gl.cursor = "ns-resize";
+    });
+    root.on(Event.mouseMoved, () => {
+        if(!rydrag) return;
+        const py = resize_y.rect.y;
+        const ph = window.rect.height;
+        resize_y.rect.y = Shell.gl.mouse.y + rycy;
+        window.rect.height = resize_y.rect.y + 5;
+        if (window.rect.height < 100) {
+            resize_y.rect.y = py;
+            window.rect.height = ph;
+        } else {
+            temp.rect.height = window.rect.height - 20;
+        }
+        button.rect.x = vw(100, window) - 15;
+        change.rect.x = vw(100, window) - 38;
+        resize_x.rect.x = vw(100, window) - 5;
+        resize_x.rect.height = vh(100, window) - 20;
+        minimize.rect.x = vw(100, window) - 61;
+        resize.rect.y = vh(100, window) - 5;
+    });
+    root.on(Event.mouseReleased, () => {
+        if (!rydrag) return;
+        rydrag = false;
+        createWindow.dragging = false;
+        Shell.gl.cursor = "default";
+    });
+
+    let rxcx;
+    let rxdrag = false;
+    resize_x.on(Event.mousePressed, () => {
+        if(createWindow.dragging) return;
+        if(!allow) return;
+        rxcx = resize_x.rect.x - Shell.gl.mouse.x;
+        rxdrag = true;
+        createWindow.dragging = true;
+        Shell.gl.cursor = "ew-resize";
+    });
+    root.on(Event.mouseMoved, () => {
+        if(!rxdrag) return;
+        const px = resize_x.rect.x;
+        const pw = window.rect.width;
+        resize_x.rect.x = Shell.gl.mouse.x + rxcx;
+        window.rect.width = resize_x.rect.x + 5;
+        if (window.rect.width < 100) {
+            resize_x.rect.x = px;
+            window.rect.width = pw;
+        } else {
+            temp.rect.width = window.rect.width - 10;
+        }
+        button.rect.x = vw(100, window) - 15;
+        change.rect.x = vw(100, window) - 38;
+        minimize.rect.x = vw(100, window) - 61;
+        resize.rect.x = vw(100, window) - 5;
+        resize_y.rect.y = vh(100, window) - 5;
+        resize_y.rect.width = vw(100, window) - 10;
+    });
+    root.on(Event.mouseReleased, () => {
+        if (!rxdrag) return;
+        rxdrag = false;
+        createWindow.dragging = false;
+        Shell.gl.cursor = "default";
+    });
+
 
     let rcx, rcy;
     let rdrag = false;
@@ -226,6 +316,7 @@ function createWindow(app) {
         rcy = resize.rect.y - Shell.gl.mouse.y;
         rdrag = true;
         createWindow.dragging = true;
+        Shell.gl.cursor = "nw-resize";
     });
     root.on(Event.mouseMoved, () => {
         if (!rdrag) return;
@@ -251,15 +342,20 @@ function createWindow(app) {
         }
         button.rect.x = vw(100, window) - 15;
         change.rect.x = vw(100, window) - 38;
+        resize_x.rect.x = vw(100, window) - 5;
+        resize_x.rect.height = vh(100, window) - 20;
         minimize.rect.x = vw(100, window) - 61;
+        resize_y.rect.y = vh(100, window) - 5;
+        resize_y.rect.width = vw(100, window) - 10;
     });
     root.on(Event.mouseReleased, () => {
         if (!rdrag) return;
         rdrag = false;
         createWindow.dragging = false;
+        Shell.gl.cursor = "default";
     });
 
-    window.child(resize);
+    window.child(resize, resize_x, resize_y);
 
     temp.on(Event.removed, () => {
         window.remove();
@@ -310,6 +406,10 @@ function createWindow(app) {
 
         button.rect.x = vw(100, window) - 15;
         minimize.rect.x = vw(100, window) - 61;
+        resize_x.rect.x = vw(100, window) - 5;
+        resize_x.rect.height = vh(100, window) - 20;
+        resize_y.rect.y = vh(100, window) - 5;
+        resize_y.rect.width = vw(100, window) - 10;
     }
 
     change.on(Event.mousePressed, () => {
@@ -330,16 +430,16 @@ function createWindow(app) {
             change.text = "🗗";
             window.rect.x = 0;
             window.rect.y = 0;
-            resize.rect.x = vw(100) - resize.rect.width;
-            resize.rect.y = vh(100) - resize.rect.height;
+            resize.rect.x = vw(100) - 5;
+            resize.rect.y = vh(100) - 5;
             r();
         }
-        window.on(Event.windowResized, () => {
-            if (allow) return;
-            resize.rect.x = vw(100) - resize.rect.width;
-            resize.rect.y = vh(100) - resize.rect.height;
-            r();
-        });
+    });
+    window.on(Event.windowResized, () => {
+        if (allow) return;
+        resize.rect.x = vw(100) - 5;
+        resize.rect.y = vh(100) - 5;
+        r();
     });
 
     return temp.shell;
