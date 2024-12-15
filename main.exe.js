@@ -92,6 +92,8 @@ class App extends Element {
 const shells = [];
 
 function createWindow(app) {
+    let full = false;
+    let root_;
     const window = new Div({
         style: {
             background: "white",
@@ -110,6 +112,56 @@ function createWindow(app) {
     name.style.size = 14;
 
     window.child(name);
+
+    window.on(Event.mousePressed, (mouseButton) => {
+        if(mouseButton === RIGHT && !window.children.some(v => v.collide())) {
+            const menu = new Div();
+            menu.style.background = "#ffffff";
+            menu.rect.x = Shell.gl.mouse.x;
+            menu.rect.y = Shell.gl.mouse.y;
+            let y = 5;
+            let w = 0;
+            for(const [text, func] of [
+                [
+                    "Close", 
+                    ()=>{temp.shell.exit = true;}
+                ], 
+                [
+                    "Hide", 
+                    () => minimize._mousePressed.forEach(v => v())
+                ], 
+                [
+                    allow? "Maximize": "Minimize", 
+                    () => change._mousePressed.forEach(v => v())
+                ], 
+                [
+                    "Fullscreen",
+                    () => temp.shell.fullScreen(true)
+                ], ...(temp.shell.options || [])]) {
+                const  button = new Button({text});
+                button.rect.y = y;
+                button.rect.x = 5;
+                button.rect.width += 5
+                button.rect.absolute = false;
+                if(button.rect.width > w) {
+                    w = button.rect.width;
+                }
+                button.on(Event.mousePressed, func);
+                y+=button.rect.height + 5;
+                menu.child(button);
+            }
+            menu.rect.width = w + 5;
+            menu.rect.height = y;
+            window.child(menu);
+            function press() {
+                window.children.splice(window.children.indexOf(menu), 1);
+                root.removeEvent(Event.mousePressed, press);
+            }
+            setTimeout(() => {
+                root.on(Event.mousePressed, press);
+            }, 100);
+        }
+    });
 
     const change = new Button({
         text: "🗖",
@@ -195,6 +247,35 @@ function createWindow(app) {
         windows.child(window);
     }
 
+    function fullScreenChange() {
+        temp.rect.width = vw(100);
+        temp.rect.height = vh(100);
+    }
+    temp.shell.fullScreen = (f) => {
+        if(f == undefined) return full;
+        if(temp.shell.denyFullScreen) return;
+        const pf = full;
+        full = f;
+        if(pf && !f) {
+            temp.rect.absolute = false;
+            root.children = root_; 
+            temp.rect.y = 15;
+            temp.rect.x = 4;
+            temp.rect.width = vw(100, window) - 10;
+            temp.rect.height = vh(100, window)-20;
+            temp.removeEvent(Event.windowResized, fullScreenChange);
+        } else if(f) {
+            temp.rect.absolute = true;
+            temp.rect.x = 0;
+            temp.rect.y = 0;
+            temp.rect.width = vw(100);
+            temp.rect.height = vh(100);
+            root_ = root.children;
+            root.children = [temp];
+            temp.on(Event.windowResized, fullScreenChange);
+        }
+    }
+
 
     temp.on(Event.tick, () => {
         if (window.rect.width < 207) {
@@ -254,7 +335,7 @@ function createWindow(app) {
             resize_y.rect.y = py;
             window.rect.height = ph;
         } else {
-            temp.rect.height = window.rect.height - 20;
+            temp.rect.height = vh(100, window) - 20;
         }
         button.rect.x = vw(100, window) - 15;
         change.rect.x = vw(100, window) - 38;
@@ -290,7 +371,7 @@ function createWindow(app) {
             resize_x.rect.x = px;
             window.rect.width = pw;
         } else {
-            temp.rect.width = window.rect.width - 10;
+            temp.rect.width = vw(100, window)- 10;
         }
         button.rect.x = vw(100, window) - 15;
         change.rect.x = vw(100, window) - 38;
@@ -332,13 +413,13 @@ function createWindow(app) {
             resize.rect.x = px;
             window.rect.width = pw;
         } else {
-            temp.rect.width = window.rect.width - 10;
+            temp.rect.width = vw(100, window) - 10;
         }
         if (window.rect.height < 100) {
             resize.rect.y = py;
             window.rect.height = ph;
         } else {
-            temp.rect.height = window.rect.height - 20;
+            temp.rect.height = vh(100, window) - 20;
         }
         button.rect.x = vw(100, window) - 15;
         change.rect.x = vw(100, window) - 38;
@@ -358,6 +439,9 @@ function createWindow(app) {
     window.child(resize, resize_x, resize_y);
 
     temp.on(Event.removed, () => {
+        if(full) {
+            root.children = root_;
+        }
         window.remove();
         shells.splice(shells.indexOf(temp.shell), 1);
     });
@@ -410,8 +494,8 @@ function createWindow(app) {
     function r() {
         window.rect.width = resize.rect.x + 5;
         window.rect.height = resize.rect.y + 5;
-        temp.rect.width = window.rect.width - 10;
-        temp.rect.height = window.rect.height - 20;
+        temp.rect.width = vw(100, window)- 10;
+        temp.rect.height = vh(100, window)- 20;
         change.rect.x = vw(100, window) - 38;
 
         button.rect.x = vw(100, window) - 15;

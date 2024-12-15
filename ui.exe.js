@@ -238,14 +238,37 @@ class RootElement extends Element {
 }
 
 class Button extends Element {
+    getWidth(text) {
+        if(text === "") return 0;
+        const collide = this.collide();
+        const {
+            size = this.style.size ?? 20,
+            font_weight = this.style.font_weight ?? 0,
+            font = this.style.font ?? default_font,
+            margin_left = this.style.margin_left ?? 2,
+        } = collide ? this.style_hover : this.style;
+        Shell.gl.canvas.strokeWeight(font_weight);
+        Shell.gl.canvas.textAlign(LEFT, TOP);
+        Shell.gl.canvas.textSize(size);
+        if (font) Shell.gl.canvas.textFont(font);
+        return Shell.gl.canvas.textWidth(text) + margin_left * 2;
+    }
+    getHeight(text) {
+        const collide = this.collide();
+        const {
+            size = this.style.size ?? 20,
+            margin_top = this.style.margin_top ?? 2,
+        } = collide ? this.style_hover : this.style;
+        return size * text.split("\n").length + margin_top * 2;
+    }
     _default() {
         this.rect = {
             autosize: true,
             absolute: true,
             x: 0,
             y: 0,
-            width: 12 * Math.max(...this.text.split("\n").map((v) => v.length)),
-            height: 23 * this.text.split("\n").length,
+            width: this.getWidth(this.text),
+            height: this.getHeight(this.text),
         };
     }
     render() {
@@ -277,14 +300,37 @@ class Button extends Element {
 }
 
 class Div extends Element {
+    getWidth(text) {
+        if(text === "") return 0;
+        const collide = this.collide();
+        const {
+            size = this.style.size ?? 20,
+            font_weight = this.style.font_weight ?? 0,
+            font = this.style.font ?? default_font,
+            margin_left = this.style.margin_left ?? 2,
+        } = collide ? this.style_hover : this.style;
+        Shell.gl.canvas.strokeWeight(font_weight);
+        Shell.gl.canvas.textAlign(LEFT, TOP);
+        Shell.gl.canvas.textSize(size);
+        if (font) Shell.gl.canvas.textFont(font);
+        return Shell.gl.canvas.textWidth(text) + margin_left * 2;
+    }
+    getHeight(text) {
+        const collide = this.collide();
+        const {
+            size = this.style.size ?? 20,
+            margin_top = this.style.margin_top ?? 2,
+        } = collide ? this.style_hover : this.style;
+        return size * text.split("\n").length + margin_top * 2;
+    }
     _default() {
         this.rect = {
             autosize: true,
             absolute: true,
             x: 0,
             y: 0,
-            width: 12 * Math.max(...this.text.split("\n").map((v) => v.length)),
-            height: 23 * this.text.split("\n").length,
+            width: this.getWidth(this.text),
+            height: this.getHeight(this.text),
         };
     }
     render() {
