@@ -381,7 +381,17 @@ function createWindow(app) {
         createWindow.dragging = true;
     });
     minimize.on(Event.mousePressed, () => {
-        windows.children.splice(windows.children.indexOf(window), 1);
+        const py = window.rect.y;
+        const amount = (root.rect.height - window.rect.y)/10; 
+        function tick() {
+            window.rect.y+=amount;
+            if(window.rect.y > root.rect.height) { 
+                windows.children.splice(windows.children.indexOf(window), 1);
+                window.rect.y = py;
+                root.removeEvent(Event.tick, tick);
+            }
+        }
+        root.on(Event.tick, tick);
     });
     root.on(Event.mouseMoved, () => {
         if (!drag) return;
