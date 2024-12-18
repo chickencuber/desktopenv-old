@@ -1,6 +1,8 @@
 const { Event, Button, Div, Element, root, vw, vh, Img } = await use("~/../ui.exe");
 
-const background = new Img();
+const background = new Img({style: {
+    border_width: 0,
+}});
 background.props.image = loadImage(getFile("~/../wallpapers/default.png"));
 background.rect.width = root.rect.width;
 background.rect.height = root.rect.height;
