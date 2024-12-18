@@ -2,11 +2,11 @@ const { Event, Button, Div, Element, root, vw, vh, Img } = await use("~/../ui.ex
 
 let scroll = 0;
 
-root.on(Event.keyPressed, (key) => {
-    if (key === UP_ARROW && scroll > 0) {
-        scroll -= 10;
-    } else if (key === DOWN_ARROW && y > Shell.size.height) {
-        scroll += 10;
+root.on(Event.mouseWheel, (_, _y) => {
+    if (_y < 0 && scroll > 0) {
+        scroll += _y / 12;
+    } else if (_y > 0 && y > Shell.size.height) {
+        scroll += _y / 12;
     }
     for(const button of root.children) {
         button.rect.y = button.props.y + scroll;
@@ -22,17 +22,6 @@ for(const [name, app] of apps) {
         border_width: 0,
         background: "#40464e",
     }});
-    if(app.terminal_app) {
-        temp.on(Event.mousePressed, () => {
-            Shell.createWindow(getPath("~/../terminal/main.exe") + " " + app.path)
-            Shell.close();
-        });
-    } else {
-        temp.on(Event.mousePressed, () => {
-            Shell.createWindow(app.path)
-            Shell.close();
-        });
-    }
     temp.rect.height = 23;
     temp.rect.x =25;
     const image = new Img({
@@ -44,6 +33,41 @@ for(const [name, app] of apps) {
             border_color: "#40464e",
         }
     });
+    if(app.terminal_app) {
+        const func = (mouseButton) => {
+            if(mouseButton === RIGHT) {
+                Shell.createContextMenu([
+                    [
+                        "Create Desktop Shortcut", () => {
+                            FS.addFile(`/user/desktop/desktop/${name}`, JSON.stringify(app));
+                        }
+                    ]
+                ])
+                return;
+            }
+            Shell.createWindow(getPath("~/../terminal/main.exe") + " " + app.path)
+            Shell.close();
+        };
+        image.on(Event.mousePressed, func);
+        temp.on(Event.mousePressed, func);
+    } else {
+        const func = (mouseButton) => {
+            if(mouseButton === RIGHT) {
+                Shell.createContextMenu([
+                    [
+                        "Create Desktop Shortcut", () => {
+                            FS.addFile(`/user/desktop/desktop/${name}`, JSON.stringify(app));
+                        }
+                    ]
+                ])
+                return;
+            }
+            Shell.createWindow(app.path)
+            Shell.close();
+        };
+        image.on(Event.mousePressed, func);
+        temp.on(Event.mousePressed, func);
+    }
     image.rect.width = 23;
     image.rect.height = 23;
     image.props.y = y;

@@ -18,7 +18,8 @@ class App extends Element {
             this.getRect().width,
             this.getRect().height
         );
-        this.shell.createWindow = this.props.createWindow;
+        this.shell.createWindow = createWindow;
+        this.shell.createContextMenu = createContextMenu;
         this.on(Event.keyPressed, (...args) => {
             this.shell.keyPressed(...args);
         });
@@ -39,6 +40,9 @@ class App extends Element {
         });
         this.on(Event.mouseMoved, (...args) => {
             this.shell.mouseMoved(...args);
+        });
+        this.on(Event.mouseWheel, (...args) => {
+            this.shell.mouseWheel(...args);
         });
         this.pw = this.getRect().width;
         this.ph = this.getRect().height;
@@ -91,6 +95,39 @@ class App extends Element {
 
 const shells = [];
 
+function createContextMenu(_menu) {
+    const menu = new Div();
+    menu.style.background = "#ffffff";
+    menu.rect.x = Shell.gl.mouse.x;
+    menu.rect.y = Shell.gl.mouse.y;
+    let y = 5;
+    let w = 0;
+    for(const [text, func] of _menu) {
+        const  button = new Button({text});
+        button.rect.y = y;
+        button.rect.x = 5;
+        button.rect.width += 5
+        button.rect.absolute = false;
+        if(button.rect.width > w) {
+            w = button.rect.width;
+        }
+        button.on(Event.mousePressed, func);
+        y+=button.rect.height + 5;
+        menu.child(button);
+    }
+    menu.rect.width = w + 5;
+    menu.rect.height = y;
+    root.child(menu);
+    function press() {
+        root.children.splice(root.children.indexOf(menu), 1);
+        root.removeEvent(Event.mousePressed, press);
+    }
+    setTimeout(() => {
+        root.on(Event.mousePressed, press);
+    }, 100);
+
+}
+
 function createWindow(app) {
     let full = false;
     let root_;
@@ -115,13 +152,7 @@ function createWindow(app) {
 
     window.on(Event.mousePressed, (mouseButton) => {
         if(mouseButton === RIGHT && !window.children.some(v => v.collide())) {
-            const menu = new Div();
-            menu.style.background = "#ffffff";
-            menu.rect.x = Shell.gl.mouse.x;
-            menu.rect.y = Shell.gl.mouse.y;
-            let y = 5;
-            let w = 0;
-            for(const [text, func] of [
+            createContextMenu([
                 [
                     "Close", 
                     ()=>{temp.shell.exit = true;}
@@ -137,29 +168,7 @@ function createWindow(app) {
                 [
                     "Fullscreen",
                     () => temp.shell.fullScreen(true)
-                ], ...(temp.shell.options || [])]) {
-                const  button = new Button({text});
-                button.rect.y = y;
-                button.rect.x = 5;
-                button.rect.width += 5
-                button.rect.absolute = false;
-                if(button.rect.width > w) {
-                    w = button.rect.width;
-                }
-                button.on(Event.mousePressed, func);
-                y+=button.rect.height + 5;
-                menu.child(button);
-            }
-            menu.rect.width = w + 5;
-            menu.rect.height = y;
-            window.child(menu);
-            function press() {
-                window.children.splice(window.children.indexOf(menu), 1);
-                root.removeEvent(Event.mousePressed, press);
-            }
-            setTimeout(() => {
-                root.on(Event.mousePressed, press);
-            }, 100);
+                ], ...(temp.shell.options || [])])
         }
     });
 
@@ -224,7 +233,6 @@ function createWindow(app) {
     const temp = new App({
         props: {
             app,
-            createWindow,
         },
     });
     temp.rect.absolute = false;
@@ -541,10 +549,18 @@ function createWindow(app) {
 
 createWindow.dragging = false;
 
-const background = new Img();
-background.props.image = loadImage(getFile("~/wallpapers/default.png"));
-background.rect.width = root.rect.width;
-background.rect.height = root.rect.height;
+const background = new App({
+    props: {
+        app: getPath("~/applets/desktop.exe")
+    },
+    style: {
+        border_width: 0,
+    }
+});
+
+background.rect.width = vw(100);
+background.rect.height = vh(100);
+
 
 const button = new Button({
     text: "O",
@@ -566,6 +582,9 @@ button.rect.height = 35;
 button.rect.absolute = false;
 
 const bar = new Div({
+    props:{
+        app: getPath("~/applets/launched_apps.exe"),
+    },
     style: {
         border_width: 0,
         background: "#252d35",
@@ -581,7 +600,6 @@ bar.rect.y = vh(100);
 const running = new App( {
     props:{
         app: getPath("~/applets/launched_apps.exe"),
-        createWindow,
     },
     style: {
         border_width: 0,
@@ -642,13 +660,13 @@ const close = new Button({text: "⏻", style: {
     color: "white",
     border_radius: 100,
     margin_top: -2,
-    margin_left: 2.5,
+    margin_left: 2,
     font: Shell.gl.fonts.Symbols,
 }});
 
 close.rect.absolute = false;
-close.rect.width = close.rect.height;
-close.rect.x = vw(50, menu);
+close.rect.height = close.rect.width;
+close.rect.x = vw(50, menu) + 5;
 close.rect.y = vh(100, menu) - close.rect.height - 5;
 
 menu.child(close);
@@ -671,7 +689,6 @@ button.on(Event.mousePressed, () => {
         apps = new App({
             props: {
                 app: getPath("~/applets/get_apps.exe"),
-                createWindow,
             },
             style: {
                 border_width: 0,
@@ -705,7 +722,6 @@ root.on(Event.keyPressed, (keyCode) => {
             apps = new App({
                 props: {
                     app: getPath("~/applets/get_apps.exe"),
-                    createWindow,
                 },
                 style: {
                     border_width: 0,

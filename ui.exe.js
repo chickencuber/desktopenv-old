@@ -11,6 +11,7 @@ const Event = {
     mouseReleased: "mouseReleased",
     mouseMoved: "mouseMoved",
     windowResized: "windowResized",
+    mouseWheel: "mouseWheel",
     removed: "removed",
     tick: "tick",
 };
@@ -45,6 +46,7 @@ class Element {
         this._mouseReleased = [];
         this._mouseMoved = [];
         this._windowResized = [];
+        this._mouseWheel = [];
         this._removed = [];
         this._tick = [];
         this.parent = null;
@@ -103,6 +105,14 @@ class Element {
         }
         this._tick.forEach((v) => v());
         return true;
+    }
+    mouseWheel(x, y) {
+        for (let i = this.children.length - 1; i >= 0; i--) {
+            this.children[i].mouseWheel(x, y);
+        }
+        if(this.collide()) {
+            this._mouseWheel.forEach((v) => v(x, y));
+        }
     }
     keyPressed(keyCode, key) {
         for (let i = this.children.length - 1; i >= 0; i--) {
@@ -395,7 +405,7 @@ class Img extends Element {
                 width,
                 height
             );
-        }
+        } 
     }
 }
 
@@ -436,6 +446,9 @@ Shell.mouseReleased = (mouseButton) => {
 Shell.mouseMoved = () => {
     root.mouseMoved();
 };
+Shell.mouseWheel = (x, y) => {
+    root.mouseWheel(x, y);
+}
 
 function vw(a, elt = root) {
     if (Array.isArray(a)) a = a[0];

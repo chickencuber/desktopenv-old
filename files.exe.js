@@ -15,11 +15,11 @@ let scroll = 0;
 
 let height = 0;
 
-root.on(Event.keyPressed, (key) => {
-    if (key === UP_ARROW && scroll > 0) {
-        scroll -= 10;
-    } else if (key === DOWN_ARROW && height > Shell.size.height) {
-        scroll += 10;
+root.on(Event.mouseWheel, (_, y) => {
+    if (y < 0 && scroll > 0) {
+        scroll += y / 12;
+    } else if (y > 0 && height > Shell.size.height) {
+        scroll += y / 12;
     }
 });
 
