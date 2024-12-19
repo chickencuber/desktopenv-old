@@ -558,6 +558,10 @@ const background = new App({
     }
 });
 
+background.shell.collide = () => {
+    return windows.children.some(v => v.collide());
+}
+
 background.rect.width = vw(100);
 background.rect.height = vh(100);
 

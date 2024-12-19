@@ -298,6 +298,7 @@ root.on(Event.windowResized, () => {
 
 root.on(Event.tick, () => {
     if (freeze) return;
+
     div.text = Shell.localVars.workingDir;
     try {
         container.children = Files(div.rect.height);

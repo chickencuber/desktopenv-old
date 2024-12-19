@@ -94,7 +94,7 @@ root.on(Event.windowResized, () => {
 });
 
 root.on(Event.mousePressed, (mouseButton) => {
-    if(cont.children.some(v => v.collide())) return;
+    if(cont.children.some(v => v.collide()) || Shell.collide()) return;
     if(mouseButton === RIGHT) {
         Shell.createContextMenu([
             [
