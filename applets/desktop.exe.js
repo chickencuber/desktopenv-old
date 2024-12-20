@@ -20,7 +20,7 @@ let cache = {};
 
 root.on(Event.tick, () => {
     cont.children = [];
-    const apps = Object.entries(getFile("/user/desktop/desktop")).map(([k, v]) => [k, JSON.parse(v)]); 
+    const apps = Object.entries(getFile("/user/desktop/desktop")).map(([k, v]) => [k, (() => {try{JSON.parse(v)} catch(e) {}})()]); 
     let y = 0;
     for(const [name, app] of apps) {
         if(!name.endsWith(".json")) continue;
