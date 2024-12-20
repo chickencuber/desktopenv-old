@@ -47,6 +47,7 @@ root.on(Event.tick, () => {
         });
         if(app.terminal_app) {
             const func = (mouseButton) => {
+                if(Shell.collide()) return;
                 if(mouseButton === RIGHT) {
                     Shell.createContextMenu([
                         [
@@ -64,6 +65,7 @@ root.on(Event.tick, () => {
             temp.on(Event.mousePressed, func);
         } else {
             const func = (mouseButton) => {
+                if(Shell.collide()) return;
                 if(mouseButton === RIGHT) {
                     Shell.createContextMenu([
                         [
