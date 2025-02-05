@@ -470,6 +470,7 @@ function createWindow(app) {
         cx = window.rect.x - Shell.gl.mouse.x;
         cy = window.rect.y - Shell.gl.mouse.y;
         drag = true;
+        Shell.gl.cursor= "grabbing";
         createWindow.dragging = true;
     });
     minimize.on(Event.mousePressed, () => {
@@ -493,6 +494,7 @@ function createWindow(app) {
     root.on(Event.mouseReleased, () => {
         if (!drag) return;
         drag = false;
+        Shell.gl.cursor = "default";
         createWindow.dragging = false;
     });
     windows.child(window);
