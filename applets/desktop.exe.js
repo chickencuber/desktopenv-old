@@ -52,7 +52,7 @@ root.on(Event.tick, () => {
                     Shell.createContextMenu([
                         [
                             "Remove Desktop Shortcut", () => {
-                                 FS.delete(`/user/desktop/desktop/${name}`);
+                                 FS.delete(`/user/desktop-old/desktop/${name}`);
                             }
                         ]
                     ])
@@ -70,7 +70,7 @@ root.on(Event.tick, () => {
                     Shell.createContextMenu([
                         [
                             "Remove Desktop Shortcut", () => {
-                                FS.delete(`/user/desktop/desktop/${name}`);
+                                FS.delete(`/user/desktop-old/desktop/${name}`);
                             }
                         ]
                     ])

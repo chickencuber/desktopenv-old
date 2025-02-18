@@ -39,7 +39,7 @@ for(const [name, app] of apps) {
                 Shell.createContextMenu([
                     [
                         "Create Desktop Shortcut", () => {
-                            FS.addFile(`/user/desktop/desktop/${name}`, JSON.stringify(app));
+                            FS.addFile(`/user/desktop-old/desktop/${name}`, JSON.stringify(app));
                         }
                     ]
                 ])
@@ -56,7 +56,7 @@ for(const [name, app] of apps) {
                 Shell.createContextMenu([
                     [
                         "Create Desktop Shortcut", () => {
-                            FS.addFile(`/user/desktop/desktop/${name}`, JSON.stringify(app));
+                            FS.addFile(`/user/desktop-old/desktop/${name}`, JSON.stringify(app));
                         }
                     ]
                 ])
