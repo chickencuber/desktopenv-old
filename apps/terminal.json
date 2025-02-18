@@ -1,6 +1,6 @@
 {
     "name": "terminal",
-    "path": "/bin/desktop/terminal/main.exe",
-    "icon": "/bin/desktop/icons/terminal.png",
+    "path": "/bin/desktop-old/terminal/main.exe",
+    "icon": "/bin/desktop-old/icons/terminal.png",
     "terminal_app": false
 }
