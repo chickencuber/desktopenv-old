@@ -1,1 +1,1 @@
-/bin/desktop/main.exe
+/bin/desktop-old/main.exe

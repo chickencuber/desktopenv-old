@@ -29,7 +29,7 @@ game.rect.height = vh(100);
 game.props.image = canvas;
 game.style.border_width = 0;
 
-let best = parseInt(FS.getFromPath("/user/desktop/game_best"));
+let best = parseInt(FS.getFromPath("/user/desktop-old/game_best"));
 
 game.child(
     new Div({ text: "Best Score: " + best, style: { color: "white", border_width: 0 } })

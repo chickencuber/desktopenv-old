@@ -6,7 +6,7 @@ const shell = fakeShell();
 
 Shell.icon = loadImage(getFile("~/../icons/terminal.png")) 
 
-let command = getPath("/user/desktop/terminal/.startup.sh");
+let command = getPath("/user/desktop-old/terminal/.startup.sh");
 
 function fixCursor() {
   if (!shell.terminal.scroll.allow) return;
