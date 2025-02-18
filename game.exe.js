@@ -312,7 +312,7 @@ Number.prototype.clamp = function (min, max) {
 
 
 Shell.onExit = () => {
-    FS.addFile("/user/desktop/game_best", best.toString()); 
+    FS.addFile("/user/desktop-old/game_best", best.toString()); 
 }
 
 function draw() {
