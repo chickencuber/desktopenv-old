@@ -50,12 +50,13 @@ class Element {
         this._removed = [];
         this._tick = [];
         this.parent = null;
+        this.hover = false;
         this._default();
         this._start();
     }
     remove() {
         if (!this.parent) throw new Error("there is no parent to element");
-        if(this.focused) focus.splice(focus.indexOf(this), 1);
+        if (this.focused) focus.splice(focus.indexOf(this), 1);
         this.parent.children.splice(this.parent.children.indexOf(this), 1);
         this.removed();
     }
@@ -110,13 +111,15 @@ class Element {
         for (let i = this.children.length - 1; i >= 0; i--) {
             this.children[i].mouseWheel(x, y);
         }
-        if(this.collide()) {
+        if (this.hover) {
             this._mouseWheel.forEach((v) => v(x, y));
         }
     }
     keyPressed(keyCode, key) {
+        let ii = false;
         for (let i = this.children.length - 1; i >= 0; i--) {
             if (this.children[i].keyPressed(keyCode, key)) {
+                ii = true;
                 break;
             }
         }
@@ -124,11 +127,13 @@ class Element {
             this._keyPressed.forEach((v) => v(keyCode, key));
             return true;
         }
-        return false;
+        return ii;
     }
     keyReleased(keyCode, key) {
+        let ii = false;
         for (let i = this.children.length - 1; i >= 0; i--) {
             if (this.children[i].keyReleased(keyCode, key)) {
+                ii = true;
                 break;
             }
         }
@@ -136,48 +141,54 @@ class Element {
             this._keyReleased.forEach((v) => v(keyCode, key));
             return true;
         }
-        return false;
+        return ii;
     }
     mouseClicked(mouseButton) {
+        let ii = false;
         for (let i = this.children.length - 1; i >= 0; i--) {
             if (this.children[i].mouseClicked(mouseButton)) {
+                ii = true;
                 break;
             }
         }
-        if (this.collide()) {
+        if (this.hover) {
             this._mouseClicked.forEach((v) => v(mouseButton));
             return true;
         } else if (this.focused) {
             focus.splice(focus.indexOf(this), 1);
         }
-        return false;
+        return ii;
     }
     mouseDragged() {
+        let ii = false;
         for (let i = this.children.length - 1; i >= 0; i--) {
             if (this.children[i].mouseDragged()) {
+                ii = true;
                 break;
             }
         }
-        if (this.collide()) {
+        if (this.hover) {
             this._mouseDragged.forEach((v) => v());
             return true;
         }
-        return false;
+        return ii;
     }
     mousePressed(mouseButton) {
+        let ii = false;
         for (let i = this.children.length - 1; i >= 0; i--) {
             if (this.children[i].mousePressed(mouseButton)) {
+                ii = true;
                 break;
             }
         }
-        if (this.collide()) {
-            if(!this.focused) focus.push(this);
+        if (this.hover) {
+            if (!this.focused) focus.push(this);
             this._mousePressed.forEach((v) => v(mouseButton));
             return true;
         } else if (this.focused) {
             focus.splice(focus.indexOf(this), 1);
         }
-        return false;
+        return ii;
     }
     mouseReleased(mouseButton) {
         for (let i = this.children.length - 1; i >= 0; i--) {
@@ -185,7 +196,7 @@ class Element {
                 break;
             }
         }
-        if (this.collide()) {
+        if (this.hover) {
             this._mouseReleased.forEach((v) => v(mouseButton));
             return true;
         }
@@ -198,17 +209,28 @@ class Element {
         this._removed.forEach((v) => v());
         return true;
     }
-    mouseMoved() {
+    mouseMoved(f = false) {
+        if(f) {
+            this.hover = false;
+            for (child of this.children) {
+                child.mouseMoved(true);
+            }
+            return false;
+        }
+        let ii  = false;
         for (let i = this.children.length - 1; i >= 0; i--) {
-            if (this.children[i].mouseMoved()) {
-                break;
+            if (this.children[i].mouseMoved(ii)) {
+                ii = true;
             }
         }
         if (this.collide()) {
+            this.hover = true;
             this._mouseMoved.forEach((v) => v());
             return true;
+        } else {
+            this.hover = false;
         }
-        return false;
+        return ii;
     }
     windowResized() {
         for (let i = this.children.length - 1; i >= 0; i--) {
@@ -222,7 +244,7 @@ class Element {
         return focus.includes(this);
     }
     focus() {
-        if(!this.focused) focus.push(this);
+        if (!this.focused) focus.push(this);
     }
     _default() {}
 }
@@ -249,8 +271,8 @@ class RootElement extends Element {
 
 class Button extends Element {
     getWidth(text) {
-        if(text === "") return 0;
-        const collide = this.collide();
+        if (text === "") return 0;
+        const collide = this.hover;
         const {
             size = this.style.size ?? 20,
             font_weight = this.style.font_weight ?? 0,
@@ -264,7 +286,7 @@ class Button extends Element {
         return Shell.gl.canvas.textWidth(text) + margin_left * 2;
     }
     getHeight(text) {
-        const collide = this.collide();
+        const collide = this.hover;
         const {
             size = this.style.size ?? 20,
             margin_top = this.style.margin_top ?? 2,
@@ -283,7 +305,7 @@ class Button extends Element {
     }
     render() {
         let { x, y, width, height } = this.getRect();
-        const collide = this.collide();
+        const collide = this.hover;
         const {
             background = this.style.background ?? (collide ? "#aaaaaa" : "#ffffff"),
             color = this.style.color ?? "#000000",
@@ -311,8 +333,8 @@ class Button extends Element {
 
 class Div extends Element {
     getWidth(text) {
-        if(text === "") return 0;
-        const collide = this.collide();
+        if (text === "") return 0;
+        const collide = this.hover;
         const {
             size = this.style.size ?? 20,
             font_weight = this.style.font_weight ?? 0,
@@ -326,7 +348,7 @@ class Div extends Element {
         return Shell.gl.canvas.textWidth(text) + margin_left * 2;
     }
     getHeight(text) {
-        const collide = this.collide();
+        const collide = this.hover;
         const {
             size = this.style.size ?? 20,
             margin_top = this.style.margin_top ?? 2,
@@ -346,7 +368,7 @@ class Div extends Element {
     render() {
         let { x, y, width, height } = this.getRect();
 
-        const collide = this.collide();
+        const collide = this.hover;
         const {
             background = this.style.background ?? "#00000000",
             color = this.style.color ?? "#000000",
@@ -385,27 +407,28 @@ class Img extends Element {
     }
     render() {
         let { x, y, width, height } = this.getRect();
-        const collide = this.collide();
+        const collide = this.hover;
         const {
             border_width = this.style.border_width ?? 2,
             border_color = this.style.border_color ?? "#000000",
         } = collide ? this.style_hover : this.style;
         Shell.gl.canvas.fill(border_color);
-        if(border_width !== 0) Shell.gl.canvas.rect(
-            x + border_width / 2,
-            y + border_width / 2,
-            width,
-            height
-        );
+        if (border_width !== 0)
+            Shell.gl.canvas.rect(
+                x + border_width / 2,
+                y + border_width / 2,
+                width,
+                height,
+            );
         if (this.props.image) {
             Shell.gl.canvas.image(
                 this.props.image,
                 x + border_width / 2,
                 y + border_width / 2,
                 width,
-                height
+                height,
             );
-        } 
+        }
     }
 }
 
@@ -448,7 +471,7 @@ Shell.mouseMoved = () => {
 };
 Shell.mouseWheel = (x, y) => {
     root.mouseWheel(x, y);
-}
+};
 
 function vw(a, elt = root) {
     if (Array.isArray(a)) a = a[0];
