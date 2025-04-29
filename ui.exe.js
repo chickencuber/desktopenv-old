@@ -212,7 +212,7 @@ class Element {
     mouseMoved(f = false) {
         if(f) {
             this.hover = false;
-            for (child of this.children) {
+            for (const child of this.children) {
                 child.mouseMoved(true);
             }
             return false;
